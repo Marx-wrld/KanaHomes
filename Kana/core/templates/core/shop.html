@@ -23,10 +23,10 @@
         </h3>
 
         <ul class="space-y-2">
-            <li><a href="{% url 'shop' %}" class="text-purple-500">All Categories</a></li>
+            <li><a href="{% url 'shop' %}" class="{% if not active_category %}text-purple-500{% else %}text-gray-500{% endif %}">All Categories</a></li>
 
             {% for category in categories %}
-            <li><a href="{% url 'shop' %}?category={{ category.slug}}" class="text-gray-500">{{category.name}}</a></li>
+            <li><a href="{% url 'shop' %}?category={{ category.slug}}" class="{% if category.slug == active_category%}text-purple-500{% else %}text-gray-500{% endif %}">{{category.name}}</a></li>
             {% endfor %}
         </ul>
  
