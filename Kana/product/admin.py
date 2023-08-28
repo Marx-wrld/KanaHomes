@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+# Registering our category db model inside admin interface
+from .models import Category
+
+admin.site.register(Category)

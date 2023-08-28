@@ -2,7 +2,7 @@ from django.db import models
 
 # Creating a db model for our categories
 
-class category(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
 
