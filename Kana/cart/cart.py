@@ -8,7 +8,7 @@ class Cart(object):
 
         # Checking if the cart is craeted or not
         if not cart:
-            cart = self.session[settings.CART_SESSION_ID]
+            cart = self.session[settings.CART_SESSION_ID] = {}
 
         self.cart = cart
 
@@ -34,14 +34,14 @@ class Cart(object):
         if update_quantity:
             self.cart[product_id]['quantity'] += int(quantity)
 
-        #if the quantity is zero
-        if self.cart[product_id]['quantity'] == 0:
-            self.remove(product_id)
+            #if the quantity is zero
+            if self.cart[product_id]['quantity'] == 0:
+                self.remove(product_id)
         
         #saving the session
         self.save()
 
     def remove(self, product_id):
         if product_id in self.cart:
-            del self.cart(product_id)
+            del self.cart[product_id]
             self.save()
