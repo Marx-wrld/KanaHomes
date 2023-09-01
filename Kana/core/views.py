@@ -1,6 +1,8 @@
+from django.contrib.auth import login, authenticate
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from product.models import Product, Category
+from .forms import SignUpForm
 
 # Create your views here.
 def frontpage(request):
@@ -8,9 +10,20 @@ def frontpage(request):
     return render(request, 'core/frontpage.html', {'products': products}) #appending our products so that it appears on the frontpage
 
 def signup(request):
-    return render(request, 'core/signup.html')
+    if request.method == 'POST':
+        form = SignUpForm(request.POST) #passing the data that the user has submitted
 
-def login(request):
+        if form.is_valid():
+            user = form.save() #saving the user
+
+            login(request, user)
+
+            return redirect('/')
+    else:
+        form = SignUpForm()
+    return render(request, 'core/signup.html', {'form': form})
+
+def login_old(request):
     return render(request, 'core/login.html')
 
 def shop(request):

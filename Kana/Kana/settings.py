@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 SESSION_COOKIE_AGE = 86400 #How long the objects will be put in the cart before they are automatically removed
 CART_SESSION_ID = 'cart'
 
