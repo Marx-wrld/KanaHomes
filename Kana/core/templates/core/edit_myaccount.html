@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Edit Account{% endblock %}
+
+{% block content%}
+
+<div class="max-w-6xl mx-auto p-6">
+    <h1 class="mb-5 text-3xl">
+        Edit Account
+    </h1>
+
+    <form method="POST" action=".">
+        <div>
+            <label for="">First name</label>
+            <input name="first_name" type="text" value="{{ request.user.first_name }} " class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl ">
+         </div>
+
+         <div>
+            <label for="">Username</label>
+            <input name="username" type="text" value="{{ request.user.username }} " class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl ">
+         </div>
+
+         <div>
+            <label for="">Email</label>
+            <input name="email" type="email" value="{{ request.user.email }} " class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl ">
+         </div>
+         
+         <div>
+            <button class="py-4 px-6 rounded-xl text-white bg-purple-500">Submit</button>
+         </div>
+    </form>
+</div>
+{% endblock %}

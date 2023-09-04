@@ -25,6 +25,10 @@ def signup(request):
     return render(request, 'core/signup.html', {'form': form})
 
 @login_required
+def edit_myaccount(request):
+    return render(request, 'core/edit_myaccount.html')
+
+@login_required
 def myaccount(request):
     return render(request, 'core/myaccount.html')
 
