@@ -17,12 +17,12 @@
                 <div class="flex space-x-6">
                     <div class="w-1/2 mb-4">
                         <label  class="inline-block mb-2" for="">First name</label>
-                        <input type="text" class="w-full p-5 rounded-xl" >
+                        <input type="text" class="w-full p-5 rounded-xl" value="{{ request.user.first_name }}" >
                     </div>
 
                     <div class="w-1/2 mb-4">
                         <label  class="inline-block mb-2" for="">Last name</label>
-                        <input type="text" class="w-full p-5 rounded-xl">
+                        <input type="text" class="w-full p-5 rounded-xl" value="{{ request.user.last_name }}" >
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@
 
                 <div class="mb-4">
                     <label  class="inline-block mb-2" for="">Email</label>
-                    <input type="email" class="w-full p-5 rounded-xl">
+                    <input type="email" class="w-full p-5 rounded-xl" value="{{ request.user.email }}" >
                 </div>
 
                 <div class="mb-4">
