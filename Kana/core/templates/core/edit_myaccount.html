@@ -9,20 +9,26 @@
         Edit Account
     </h1>
 
-    <form method="POST" action=".">
+    <form method="POST" action="." class="space-y-3">
+        {% csrf_token %}
         <div>
             <label for="">First name</label>
-            <input name="first_name" type="text" value="{{ request.user.first_name }} " class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl ">
+            <input name="first_name" type="text" value="{{ request.user.first_name }}" class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl ">
+         </div>
+
+         <div>
+            <label for="">Last name</label>
+            <input name="last_name" type="text" value="{{ request.user.last_name }}" class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl ">
          </div>
 
          <div>
             <label for="">Username</label>
-            <input name="username" type="text" value="{{ request.user.username }} " class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl ">
+            <input name="username" type="text" value="{{ request.user.username }}" class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl ">
          </div>
 
          <div>
             <label for="">Email</label>
-            <input name="email" type="email" value="{{ request.user.email }} " class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl ">
+            <input name="email" type="email" value="{{ request.user.email }}" class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl ">
          </div>
          
          <div>
