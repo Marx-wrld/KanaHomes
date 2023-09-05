@@ -22,7 +22,7 @@ def update_cart(request, product_id, action):
         cart.add(product_id, -1, True)
 
     product = Product.objects.get(pk=product_id)
-    quantity = cart.get_item(product_id)
+    quantity = cart.get_item(product_id)['quantity']
 
     item = {
         'product': {
