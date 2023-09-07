@@ -33,6 +33,15 @@ class Order(models.Model):
     class Meta:
         ordering = ['-created_at',]
 
+    #function to return the total price of the order
+    def get_total_price(self):
+        #checking if the order actually exists
+        if self.paid_amount:
+            return self.paid_amount / 100
+        
+        #else
+        return 0
+
 #Adding a separate class for order items
 class OrderItem(models.Model):
     #referencing the order in which this item belongs to
@@ -40,3 +49,6 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE)
     price = models.IntegerField()
     quantity = models.IntegerField(default=1)
+
+    def get_total_price(self):
+        return self.price / 100
