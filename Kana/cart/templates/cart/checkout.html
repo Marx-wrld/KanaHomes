@@ -59,10 +59,8 @@
                 </div>
             </div>
 
-            <div class="mb-6 p-6 bg-gray-100 rounded-xl">
-                <h2 class="mb-5 uppercase text-lg">
-                    Payment Information
-                </h2>
+            <div class="mb-6 p-6 bg-gray-100 rounded-xl" id="errors">
+                
             </div>
         </div>
     </div>
@@ -92,6 +90,9 @@
 <script type="application/javascript" src="https://js.stripe.com/v3/">
 </script>
 <script>
+
+    let el = document.querySelector('#errors')
+
     //function for validating the form
     function validateForm(data) {
         //Looping through our form fields and checking if they are all filled or empty
@@ -123,6 +124,18 @@
 
         if (data.phone === '') {
             errors.push('Phone is required.')
+        }
+
+        if (errors.length > 0) {
+          let html = '<ul>';
+
+          errors.forEach((error) => {
+            html += '<li>' + error + '</li>';
+          });
+
+          el.innerHTML = html + '</ul>';
+        } else {
+          el.innerHTML = '';
         }
 
         return errors
