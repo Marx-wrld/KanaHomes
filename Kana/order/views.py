@@ -44,13 +44,13 @@ def start_order(request):
     #id we get from stripe when everything is ok
     payment_intent = session.payment_intent
 
-    first_name = request.data['first_name']
-    last_name = request.data['last_name']
-    email = request.data['email']
-    address = request.data['address']
-    zipcode = request.data['zipcode']
-    place = request.data['place']
-    phone = request.data['phone']
+    first_name = data['first_name']
+    last_name = data['last_name']
+    email = data['email']
+    address = data['address']
+    zipcode = data['zipcode']
+    place = data['place']
+    phone = data['phone']
 
 #next step is creating a new order
     order = Order.objects.create(user=request.user, first_name=first_name, last_name=last_name, email=email, address=address, zipcode=zipcode, place=place, phone=phone)

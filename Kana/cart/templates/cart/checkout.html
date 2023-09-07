@@ -5,8 +5,6 @@
 {% block content%}
 
 <div class="max-w-6xl mx-auto flex flex-wrap items-start py-6 px-6 xl:px-0">
-    <form action="{% url 'start_order' %}" method="POST">
-        {% csrf_token %}
     <div class="product w-full lg:w-3/4">
         <h1 class="mb-5 text-3xl">Checkout</h1>
         <div class="w-full pr-6">
@@ -80,11 +78,106 @@
             <span>${{ cart.get_total_cost }}</span>
         </div>
 
-        <button href="#" class="inline-block px-8 py-4 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">
+        <button 
+            onclick="buy(event)"
+            href="#" class="inline-block px-8 py-4 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">
             Confirm
         </button>
     </div>
-</form>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script type="application/javascript" src="https://js.stripe.com/v3/">
+</script>
+<script>
+    //function for validating the form
+    function validateForm(data) {
+        //Looping through our form fields and checking if they are all filled or empty
+        let errors = [];
+
+        if (data.first_name === '') {
+            errors.push('First name is required.')
+        }
+
+        if (data.last_name === '') {
+            errors.push('Last name is required.')
+        }
+
+        if (data.address === '') {
+            errors.push('Address is required.')
+        }
+
+        if (data.zipcode === '') {
+            errors.push('Zipcode is required.')
+        }
+
+        if (data.place === '') {
+            errors.push('Place is required.')
+        }
+
+        if (data.email === '') {
+            errors.push('Email is required.')
+        }
+
+        if (data.phone === '') {
+            errors.push('Phone is required.')
+        }
+
+        return errors
+    }
+
+    function buy(event) {
+        //calling event.preventDefault() to prevent the form from submitting
+        event.preventDefault();
+
+        let data = {
+            //getting the values from the form fields and storing them in the data object instead of using form tag in our html
+            'first_name': document.querySelector('input[name="first_name"]').value,
+            'last_name': document.querySelector('input[name="last_name"]').value,
+            'address': document.querySelector('input[name="address"]').value,
+            'zipcode': document.querySelector('input[name="zipcode"]').value,
+            'place': document.querySelector('input[name="place"]').value,
+            'email': document.querySelector('input[name="email"]').value,
+            'phone': document.querySelector('input[name="phone"]').value,
+        }
+
+        let errors = validateForm(data);
+
+        if (errors.length > 0) {
+            //if there are errors, we loop through them and display them in the console
+            console.log('Errors', errors)
+        } else {
+            var stripe = Stripe('{{ pub_key }}')
+
+            fetch('/order/start_order/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then(function(response) {
+                return response.json()
+            })
+            .then(function(session) {
+                return stripe.redirectToCheckout({ sessionId: session.session.id })
+            })
+            .then(function(result) {
+                if (result.error) {
+                    alert(result.error.message)
+                }
+            })
+            //if there are other errors
+            .catch(function(error) {
+                console.log('Error', error)
+            })
+        }
+
+        return false
+    }
+</script>
 {% endblock %}
