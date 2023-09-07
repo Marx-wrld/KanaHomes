@@ -50,6 +50,11 @@ class Cart(object):
         if product_id in self.cart:
             del self.cart[product_id]
             self.save()
+    
+    #Clearing the cart once the purchase is complete
+    def clear(self):
+        del self.session[settings.CART_SESSION_ID]
+        self.session.modified = True
 
     def get_total_cost(self):
         #Looping through the products in the cart and summing up the total price
