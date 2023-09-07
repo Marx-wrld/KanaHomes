@@ -30,6 +30,9 @@ class Order(models.Model):
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=ORDERED)
 
+    class Meta:
+        ordering = ['-created_at',]
+
 #Adding a separate class for order items
 class OrderItem(models.Model):
     #referencing the order in which this item belongs to
