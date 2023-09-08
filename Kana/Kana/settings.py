@@ -34,6 +34,9 @@ LOGIN_URL = '/login/'
 SESSION_COOKIE_AGE = 86400 #How long the objects will be put in the cart before they are automatically removed
 CART_SESSION_ID = 'cart'
 
+STRIPE_API_KEY_PUBLISHABLE = 'pk_test_51NnikoHfmIYYf4DcIChFdpO2L00jp4OPnbwV5NIiIgEhdhxiilSCZobE3Kf1FtG9YNfQ1fSpQediHfyJ1yTECcBA00neljmK3m'
+STRIPE_API_KEY_HIDDEN = 'sk_test_51NnikoHfmIYYf4DcO38cIW7ZlPBy5Xl7FOYokWDp0ryFLPy0RA2JDoS42SqHHqFpQPU3B6tEo86ZRKgVr1xizXus007VMGaM0x'
+
 # Application definition
 
 INSTALLED_APPS = [
