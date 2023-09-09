@@ -2,7 +2,6 @@ import json
 import stripe
 
 from django.conf import settings
-from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from cart.cart import Cart
 from .models import OrderItem, Order
@@ -20,7 +19,8 @@ def start_order(request):
             total_price += product.price * int(item['quantity'])
 
             #dictionary to append to our list
-            obj = {
+
+            items.append({
                  'price_data': {
                       'currency': 'usd',
                       'product_data': {
@@ -30,8 +30,7 @@ def start_order(request):
                  },
                  'quantity': item['quantity']
             }
-            
-            items.append(obj)
+            )
 
     stripe.api_key = settings.STRIPE_API_KEY_HIDDEN
     session = stripe.checkout.Session.create (
@@ -44,21 +43,20 @@ def start_order(request):
     #id we get from stripe when everything is ok
     payment_intent = session.payment_intent
 
-    first_name = data['first_name']
-    last_name = data['last_name']
-    email = data['email']
-    address = data['address']
-    zipcode = data['zipcode']
-    place = data['place']
-    phone = data['phone']
-
 #next step is creating a new order
-    order = Order.objects.create(user=request.user, first_name=first_name, last_name=last_name, email=email, address=address, zipcode=zipcode, place=place, phone=phone)
-
-    order.payment_intent = payment_intent
-    order.paid_amount = total_price
-    order.paid = True
-    order.save()
+    order = Order.objects.create(
+         user=request.user, 
+         first_name=data['first_name'],
+         last_name=data['last_name'], 
+         email=data['email'], 
+         address=data['address'], 
+         zipcode=data['zipcode'], 
+         place=data['place'], 
+         phone=data['phone'],
+         payment_intent=payment_intent,
+         paid=True,
+         paid_amount=total_price
+     )
     
     #looping through the items in the cart
     for item in cart:
@@ -67,7 +65,7 @@ def start_order(request):
         price = product.price * quantity
 
         item = OrderItem.objects.create(order=order, product=product, price=price, quantity=quantity)
-        
+
     cart.clear()
     
     return JsonResponse({'session': session, 'order': payment_intent}) #when we call this function the our session will be returned and we get our payment from there
