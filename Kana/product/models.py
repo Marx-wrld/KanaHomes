@@ -65,6 +65,20 @@ class Product(models.Model):
     #getting the thumbnail from the server and returning it to this function
         thumbnail = File(thumb_io, name=image.name)
         return thumbnail
+    
+    #Model function on the product to get the rating
+    def get_rating(self):
+        reviews_total = 0
+
+        #Looping through all the reviews
+        for review in self.reviews.all():
+            reviews_total += review.rating
+
+        #if reviews_total is > 0 then we divide it by the number of reviews
+            if reviews_total > 0:
+                return reviews_total / self.reviews.count()
+            #else if there are no more than 0 return 0
+            return 0
 
 #Customer product review
 class Review(models.Model):

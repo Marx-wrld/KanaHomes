@@ -19,6 +19,10 @@
             ${{ product.get_display_price }}
         </p>
 
+        {% if product.rating > 0 %}
+            <p class="mt-1 text-gray-400">Rating: {{ product.get_rating }}/6</p>
+        {% endif %}
+
         {% if product.description %}
             <p class="mt-4 text-gray-700">
             {{ product.description}}
@@ -69,9 +73,11 @@
 
         {% for review in product.reviews.all %}
            <div class="px-4 py-6 bg-gray-100 rounded-xl mb-4">
-                <strong>Rating</strong> {{ review.rating }}/6
+                <strong>Rating: </strong> {{ review.rating }}/6
                 <br/>
-                <strong>Comment:</strong>
+                <strong>Date: </strong>{{ review.created_at|dates:"Y-m-d"}}
+                <br/>
+                <strong>Comment: </strong>
                 <br/>
                 {{ review.content }}
            </div>
