@@ -13,12 +13,22 @@ def product(request, slug): #we want to also accept a slug and then get a produc
 
         #checking if this form has been filled out
         if content:
-            review = Review.objects.create(
-                product=product,
-                rating = rating,
-                content=content,
-                created_at=request.user
-            ) #redirecting back to products
+            reviews = Review.objects.filter(created_by=request.user, product=product)
+
+            #Adding security so that one user should not be able to create multiple
+            if reviews.count() > 0:
+                review = reviews.first()
+                review.rating = rating
+                review.content = content
+                review.save()
+            else:
+
+                review = Review.objects.create(
+                    product=product,
+                    rating = rating,
+                    content=content,
+                    created_at=request.user
+                ) #redirecting back to products
 
             return redirect('product', slug=slug)
 
