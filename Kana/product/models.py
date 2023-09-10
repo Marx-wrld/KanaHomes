@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.files import File
 from PIL import Image
 from io import BytesIO
@@ -64,3 +65,11 @@ class Product(models.Model):
     #getting the thumbnail from the server and returning it to this function
         thumbnail = File(thumb_io, name=image.name)
         return thumbnail
+
+#Customer product review
+class Review(models.Model):
+    product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE) # if we delete a product we also delete all of its review
+    rating = models.IntegerField(default=3)
+    content = models.TextField() # for the comment
+    created_by = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE)# we want to also know who created it
+    created_at = models.DateTimeField(auto_now_add=True)
