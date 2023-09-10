@@ -34,6 +34,40 @@
             Add to cart
         </a>
     </div>
+
+    <div class="w-full mt-4">
+        <h2 class="text-xl">Reviews</h2><br/>
+
+        {% if request.user.is_authenticated%}
+           <form action="." method="POST" class="mt-6 p-6 bg-gray-100 rounded-xl">
+                {% csrf_token %}
+                <!-- Field for selecting the rating and one for filling out the content -->
+                <div>
+                    <label for="">Rating</label> <br/>
+
+                    <select name="rating" id="">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4" selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+
+                <div>
+                     <label for="">Comment</label><br/>
+
+                     <textarea name="" id="" cols="30" rows="10"></textarea>
+                </div>
+
+                <div>
+                    <button>Submit</button>
+                </div>
+           </form> 
+        {% endif %}
+    </div>
+
 </div>
 
 {% endblock %}
