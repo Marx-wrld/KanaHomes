@@ -6,7 +6,7 @@
     <div class="w-3/4 pl-6">
         <div class="flex justify-between">
             <a href="{% url 'product' item.product.slug %}" class="text-lg">{{ item.product.name }}</a>
-            <span class="mb-6 pt-1 text-gray-100">
+            <span class="mb-6 pt-1 text-blue-500">
                 ${{ item.total_price }}
             </span>
         </div>
@@ -20,7 +20,7 @@
                 hx-target="#cart-item-{{ item.product.id }}"
                 hx-swap="outerHTML"
             >
-                -
+                <button>-</button>
             </a>
             <span>{{ item.quantity }}</span>
             <a 
@@ -29,7 +29,7 @@
                 hx-target="#cart-item-{{ item.product.id }}"
                 hx-swap="outerHTML"
             >
-                +
+              <button>+</button>  
             </a>
         </div>
     </div>
