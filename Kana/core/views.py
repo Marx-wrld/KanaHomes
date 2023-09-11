@@ -9,7 +9,6 @@ from .forms import SignUpForm
 def about(request):
     return render(request, 'core/about.html')
 
-
 def frontpage(request):
     products = Product.objects.all()[0:8] #limiting our products so that only 8 appear on the frontpage
     return render(request, 'core/frontpage.html', {'products': products}) #appending our products so that it appears on the frontpage
