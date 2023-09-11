@@ -29,8 +29,7 @@ def start_order(request):
                       'unit_amount': product.price
                  },
                  'quantity': item['quantity']
-            }
-            )
+            })
 
     stripe.api_key = settings.STRIPE_API_KEY_HIDDEN
     session = stripe.checkout.Session.create (
@@ -53,7 +52,7 @@ def start_order(request):
          zipcode=data['zipcode'], 
          place=data['place'], 
          phone=data['phone'],
-         payment_intent=payment_intent,
+     #     payment_intent=payment_intent,
          paid=True,
          paid_amount=total_price
      )
