@@ -7,7 +7,7 @@
 
 <div class="max-w-6xl mx-auto flex flex-wrap py-6 px-6 xl:px-0">
     <div class="images w-full mb-6 lg:mb-0 lg:w-3/5">
-        <img class="rounded-xl" src="{% if product.image %}{{ product.image.url }}https://via.placeholder.com/240x240x.jpg{% else %}{% endif %}" alt="">
+        <img class="rounded-xl" src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/240x240x.jpg{% endif %}" alt="">
     </div>
 
     <div class="information w-full lg:w-2/5 lg:p-6">
@@ -18,6 +18,10 @@
         <p class="mt-1 text-gray-400">
             ${{ product.get_display_price }}
         </p>
+
+        {% if product.rating > 0 %}
+            <p class="mt-1 text-gray-400">Rating: {{ product.get_rating }}/6</p>
+        {% endif %}
 
         {% if product.description %}
             <p class="mt-4 text-gray-700">
@@ -34,6 +38,52 @@
             Add to cart
         </a>
     </div>
+
+    <div class="w-full mt-6">
+        <h2 class="text-xl">Reviews</h2>
+
+        {% if request.user.is_authenticated%}
+           <form action="." method="POST" class="mt-6 mb-6 p-6 bg-gray-100 rounded-xl">
+                {% csrf_token %}
+                <!-- Field for selecting the rating and one for filling out the content -->
+                <div>
+                    <label for="">Rating</label> <br/><br/>
+
+                    <select name="rating" class="bg-gray-50 outline outline-0 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-24 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4" selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div><br/>
+
+                <div>
+                     <label for="">Comment</label><br/><br/>
+
+                     <textarea class="pt-5 pl-5 outline outline-1" placeholder="Add a comment" id="text" name="comment" cols="60" rows="8"></textarea>
+                </div>
+
+                <div>
+                    <button class="mt-6 inline-block px-8 py-4 rounded-xl bg-purple-500 text-white hover:bg-purple-700">Submit</button>
+                </div>
+           </form> 
+        {% endif %}
+
+        {% for review in product.reviews.all %}
+           <div class="px-4 py-6 bg-gray-100 rounded-xl mb-4">
+                <strong>Rating: </strong> {{ review.rating }}/6
+                <br/>
+                <strong>Date: </strong>{{ review.created_at|date:"Y-m-d"}}
+                <br/>
+                <strong>Comment: </strong>
+                <br/>
+                {{ review.content }}
+           </div>
+        {% endfor %}
+    </div>
+
 </div>
 
 {% endblock %}
