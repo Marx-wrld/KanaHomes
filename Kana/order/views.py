@@ -29,8 +29,7 @@ def start_order(request):
                       'unit_amount': product.price
                  },
                  'quantity': item['quantity']
-            }
-            )
+            })
 
     stripe.api_key = settings.STRIPE_API_KEY_HIDDEN
     session = stripe.checkout.Session.create (

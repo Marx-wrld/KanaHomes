@@ -9,7 +9,7 @@ def add_to_cart(request, product_id):
     cart = Cart(request)
     cart.add(product_id)
 
-    return render(request, 'cart/menu_cart.html')
+    return render(request, 'cart/partials/menu_cart.html')
 
 def cart(request):
     return render(request, 'cart/cart.html')
@@ -30,8 +30,9 @@ def update_cart(request, product_id, action):
     quantity = cart.get_item(product_id)
 
     if quantity:
-        quantity = quantity['quantity']
+        quantity = quantity['quantity'] 
 
+        #dict for the new item that we return back to the cart
         item = {
             'product': {
                 'id': product.id,
@@ -39,15 +40,16 @@ def update_cart(request, product_id, action):
                 'image': product.image,
                 'get_thumbnail': product.get_thumbnail(),
                 'price': product.price,
+                'slug': product.slug, 
             },
-            'total_price': (quantity * product.price) / 100,
+            'total_price': int(quantity * product.price) / 100,
             'quantity': quantity,
         }
     else:
         item = None
 
     response = render(request, 'cart/partials/cart_item.html', {'item': item})
-    response['HX-Trigger'] = 'update-menu-cart'
+    response['HX-Trigger'] = 'update-menu-cart' #triggering the update menu cart
 
     return response
 
