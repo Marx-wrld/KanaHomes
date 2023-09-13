@@ -27,9 +27,7 @@ class Order(models.Model):
     
     paid = models.BooleanField(default=False)
     paid_amount = models.IntegerField(blank=True, null=True)
-
-    payment_intent = models.CharField(max_length=255, blank=True)
-
+    payment_intent = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=ORDERED)
 
     class Meta:
